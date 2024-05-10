@@ -2,10 +2,7 @@ import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
 import { Hono } from "hono";
 import { userTable } from "./db/schema/auth";
-
-export type Env = {
-  DATABASE_URL: string;
-};
+import { Env } from "./context";
 
 const app = new Hono<{ Bindings: Env }>();
 
