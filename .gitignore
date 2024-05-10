@@ -1,6 +1,7 @@
 node_modules
 dist
 .wrangler
+.drizzle
 .dev.vars
 
 # Change them to your taste:

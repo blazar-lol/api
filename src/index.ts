@@ -1,9 +1,21 @@
-import { Hono } from 'hono'
+import { neon } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-http";
+import { Hono } from "hono";
+import { userTable } from "./db/schema/auth";
 
-const app = new Hono()
+export type Env = {
+  DATABASE_URL: string;
+};
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
-})
+const app = new Hono<{ Bindings: Env }>();
 
-export default app
+app.get("/", async (c) => {
+  const sql = neon(c.env.DATABASE_URL);
+  const db = drizzle(sql);
+
+  const allUsers = await db.select().from(userTable);
+
+  return c.json(allUsers);
+});
+
+export default app;
